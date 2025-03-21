@@ -1,17 +1,18 @@
 import { NextFunction, Request, Response } from 'express';
 import { LoginUsecase } from '../../../../application';
+import { ControllerInterface } from '@domain/interfaces/controllers';
 
 /**
  * Login controller for Express
  */
-export class LoginController {
+export class LoginController implements ControllerInterface {
   private loginUsecase: LoginUsecase;
 
   constructor() {
     this.loginUsecase = new LoginUsecase();
   }
 
-  public async execute(req: Request, res: Response, next: NextFunction): Promise<void> {
+  public execute = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
       const { email, password } = req.body;
       if (!email || !password) {

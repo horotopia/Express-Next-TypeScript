@@ -1,17 +1,18 @@
 import { NextFunction, Request, Response } from 'express';
 import { RegisterUsecase } from '../../../../application';
+import { ControllerInterface } from '../../../../domain';
 
 /**
  * Register controller for Express
  */
-export class RegisterController {
-  private registerUsecase: RegisterUsecase;
+export class RegisterController implements ControllerInterface {
+  private registerUsecase;
 
   constructor() {
     this.registerUsecase = new RegisterUsecase();
   }
 
-  public async execute(req: Request, res: Response, next: NextFunction): Promise<void> {
+  public execute = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
       const { email, password } = req.body;
       if (!email || !password) {
@@ -24,7 +25,7 @@ export class RegisterController {
       if (token instanceof Error) {
         res.json({ error: token.message });
       }
-      res.status(201).json({ token });
+      res.status(201).json(token);
     } catch (error) {
       if (!res.statusCode) {
         res.status(500).json({ error: 'Internal server error' });

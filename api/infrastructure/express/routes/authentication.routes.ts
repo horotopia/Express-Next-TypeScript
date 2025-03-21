@@ -6,14 +6,14 @@ import {
   RegisterController 
 } from '../controllers';
 import { validatePassword, validateEmail } from '../middlewares';
-console.log('AuthenticationRoutes import controllers');
+import { ControllerInterface } from '@domain/interfaces/controllers';
 
 export class AuthenticationRoutes {
   public router: Router;
   private loginController: LoginController;
   // private logoutController: LogoutAuthenticationController;
   // private recoverPasswordController: RecoverForgottenPasswordAuthenticationController;
-  private registerController: RegisterController;
+  private registerController: ControllerInterface;
 
   constructor() {
     this.router = express.Router();
@@ -22,17 +22,10 @@ export class AuthenticationRoutes {
     // this.recoverPasswordController = new RecoverForgottenPasswordAuthenticationController();
     this.registerController = new RegisterController();
 
-    console.log('AuthenticationRoutes constructor');
-    console.log(`password-validator: ${typeof validatePassword}`);
-    console.log(`email-validator: ${typeof validateEmail}`);
-
     this.initializeRoutes();
   }
 
   private initializeRoutes() {
-    console.log(`Initializing routes with validateEmail: ${typeof validateEmail}, validatePassword: ${typeof validatePassword}`);
-    console.log(`LoginController execute method: ${typeof this.loginController.execute}`);
-    console.log(`RegisterController execute method: ${typeof this.registerController.execute}`);
 
     this.router.post('/login', validateEmail, validatePassword, this.loginController.execute);//.bind(this.loginController));
     // this.router.post('/logout', (req, res) => {this.logoutController.logout(req, res)});

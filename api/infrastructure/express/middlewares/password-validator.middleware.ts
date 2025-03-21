@@ -9,8 +9,6 @@ export const validatePassword: RequestHandler = (req: Request, res: Response, ne
         return;
     }
 
-    console.log(`User.isValidPassword: ${typeof User.isValidPassword}`);
-
     if (!User.isValidPassword(password)) {
         res.status(400).json({ error: "Mot de passe invalide" });
         return;

@@ -9,8 +9,6 @@ export const validateEmail: RequestHandler = (req: Request, res: Response, next:
         return;
     }
 
-    console.log(`User.isValidEmail: ${typeof User.isValidEmail}`);
-
     if (!User.isValidEmail(email)) {
         res.status(400).json({ error: "Email invalide" });
         return;

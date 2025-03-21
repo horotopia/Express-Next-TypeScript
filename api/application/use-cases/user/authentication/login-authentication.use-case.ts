@@ -13,11 +13,12 @@ export class LoginUsecase {
     this.tokenService = new TokenService();
   }
   
-  public async execute(email: string, password: string): Promise<string> {
+  public async execute (email: string, password: string): Promise<string | InvalidCredentialsError> {
 
     const user = await this.userRepository.findByEmail(email);
+    console.log('LoginUsecase user:', user);
     if (!user || !this.encryptionService.comparePassword(user.password, password)) {
-      throw new InvalidCredentialsError('Invalid email or password');
+      return new InvalidCredentialsError('Invalid email or password');
     }
     
     return this.tokenService.generateToken(user);

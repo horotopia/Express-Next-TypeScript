@@ -1,7 +1,9 @@
+import { UserModelInterface } from '../interfaces';
 import { UserRole } from '../value-objects';
 import { v4 as uuidv4 } from 'uuid';
 
-export class User {
+
+export class User implements UserModelInterface {
   private readonly _id: string;
   private _firstName?: string;
   private _lastName?: string;
@@ -11,7 +13,7 @@ export class User {
   private _role: UserRole;
   private _isActive: boolean;
   private _createdAt: Date;
-  private _lastLoginAt: Date | null;
+  private _lastLoginAt?: Date | undefined;
 
   constructor(
     id = uuidv4(),
@@ -20,10 +22,10 @@ export class User {
     email = '',
     password = '',
     phone = '',
-    role = UserRole.CUSTOMER,
+    role = UserRole.USER,
     isActive = false,
     createdAt = new Date(),
-    lastLoginAt = new Date(),
+    lastLoginAt = undefined,
   ) {
     this._id = id;
     this._firstName = firstName;
@@ -34,7 +36,7 @@ export class User {
     this._role = role;
     this._isActive = isActive || false;
     this._createdAt = createdAt || new Date();
-    this._lastLoginAt = lastLoginAt || null;
+    this._lastLoginAt = lastLoginAt;
 
     console.log("User email validator test: ",User.isValidEmail("test@example.com")); // Doit retourner true
     console.log("User password validator test: ", User.isValidPassword("Test123!mqud")); // Doit retourner true
@@ -82,7 +84,7 @@ export class User {
     return this._createdAt;
   }
 
-  get lastLoginAt(): Date | null {
+  get lastLoginAt(): Date | undefined {
     return this._lastLoginAt;
   }
 
@@ -106,8 +108,8 @@ export class User {
     this._lastLoginAt = new Date();
   }
 
-  isCustomer(): boolean {
-    return this._role === UserRole.CUSTOMER;
+  isUser(): boolean {
+    return this._role === UserRole.USER;
   }
   isAdmin(): boolean {
     return this._role === UserRole.ADMIN;
